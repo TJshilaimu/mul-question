@@ -22,7 +22,33 @@
    流程通常为：寻找漏洞->构建攻击代码->攻击用户->寻找输出点->攻击完成
 防御措施：为用户提交的数据进行编码处理。
 
-- demo :
+- demo:
 ```javascript
-
+//倒计时功能（简陋）
+    <div id="app"></div>
+    <button onclick="stop()">停止</button>
+    <script>
+        var dom = document.getElementById('app');
+        var timer = null;
+        function createDealTime() {
+            dom.innerHTML = '';
+            var now = new Date(); //格式为 Sun Aug 16 2020 21:46:59 GMT+0800 (中国标准时间)
+            var to = new Date(2020, 7, 17, 20, 56)
+            var num = to - now;
+            var str = '';
+            // 计算出差值的时分秒
+            var h = Math.floor(num / (60 * 1000 * 60));
+            var m = Math.floor(num / (1000 * 60) % 60);
+            var s = Math.floor(num / 1000 % 60);
+            var ms = Math.floor(num % 1000 / 10);
+            var str = (h < 10 ? '0' + h : h) + ':' + (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s) + ':' + (ms <
+                10 ? '0' + ms : ms);
+            dom.innerHTML = str;
+            timer = requestAnimationFrame(createDealTime)
+        }
+        createDealTime();
+        function stop() {
+            cancelAnimationFrame(timer)
+        }
+    </script>
 ```
