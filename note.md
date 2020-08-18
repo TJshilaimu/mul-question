@@ -103,3 +103,116 @@
     </style>
 ```
 > filter滤镜，invert()为翻转输入图像，值为1或100%时，黑变白，白变黑；hue-rotate()给图像应用色相旋转,超过360deg相当于绕了一圈
+
+## 2020-8-18
+- easy:
+```javascript
+        //下面代码会输出什么结果？
+        var a=1;
+        var obj = {
+            a:2,
+            method:{
+                a:3,
+                A:function(){
+                    return this.a;
+                }
+            }
+        };
+        var m=obj.method.A;
+        console.log(m());
+```
+> 答案是 1。this指向问题，全局及函数预编译中，this指向window.
+
+- normal:
+什么是CSRF攻击?
+> CSRF(跨站请求伪造)，利用cookie的便利，利用受信任用户的请求来利用受信用的网站。利用用户在A网站登录没有退出，在B网站点击了一个其实是A网站的一个链接，这个链接是支付链接且带好了传参值，然后由于浏览器有A网站的cookie，所以就在用户不知情的情况下进行了误支付。 所以它利用的是 cookie的自动携带特性以及跨站攻击，可以从这角度得出防范措施：1、检查Referer字段，HTTP头中的这个字段用于表明请求来源于哪个地址，由此可拒绝一切非本站发出的请求；2、Token验证，由于 CSRF 是利用了浏览器自动传递 cookie 的特性，另外一个防御思路就是校验信息不
+通过 cookie 传递，在其他参数中增加随机加密串进行校验。
+
+- 小demo:
+```javascript
+    // 分页插件
+    //css部分
+        .active {
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            border: 1px solid red;
+            display: inline-block;
+            text-align: center;
+            cursor: pointer;
+        }
+    //js部分
+        function showPage(nowPage, pageSize, total) { //pageSize:每页数据条数,total:总数据条数
+            var arr = [];
+            arr.push({
+                text: '首页',
+                page: 1
+            });
+            if (nowPage > 3) {
+                arr.push({
+                    text: '···',
+                    page: nowPage - 3
+                })
+            }
+            if (nowPage > 2) {
+                arr.push({
+                    text: nowPage - 2,
+                    page: nowPage - 2
+                })
+            }
+            if (nowPage > 1) {
+                arr.push({
+                    text: nowPage - 1,
+                    page: nowPage - 1
+                })
+            }
+            arr.push({
+                text: nowPage,
+                page: nowPage
+            });
+            if (nowPage + 1 < Math.floor((total + pageSize - 1) / pageSize)) {
+                arr.push({
+                    text: nowPage + 1,
+                    page: nowPage + 1
+                })
+            }
+            if (nowPage + 2 < Math.floor((total + pageSize - 1) / pageSize)) {
+                arr.push({
+                    text: nowPage + 2,
+                    page: nowPage + 2
+                })
+            }
+            if (nowPage + 2 < Math.floor((total + pageSize - 1) / pageSize)) {
+                arr.push({
+                    text: '···',
+                    page: nowPage + 3
+                })
+            }
+            arr.push({
+                text: '尾页',
+                page: Math.floor((total + pageSize - 1) / pageSize)
+            })
+            return arr;
+        }
+        //创建一个页码
+        function createEle(obj) {
+            var div = document.createElement('div');
+            div.className = 'active';
+            div.innerText = obj["text"];
+            //给每个页码绑定一个事件用作切换页码，并可在以后添加ajax请求获取每页的数据。
+            div.onclick = function () {
+                document.body.innerHTML = '';
+                let nowArr = showPage(obj.page, 5, 1400)
+                nowArr.forEach(item => {
+                    createEle(item);
+                })
+            }
+            document.body.appendChild(div)
+        }
+        //生成完整页码
+        var myArr = showPage(8, 5, 1400) //当前页为8，每页5条数据，总共1400条数据
+        myArr.forEach(item => {
+            createEle(item);
+        })
+```
+> 原本想在vue中写这个插件的，结果一时想不开就写了原生的。就写了个基本框架，目前搜索没做以及省略功能辣眼睛，就练练手也不想搞太多，就先这样吧，不能重复造轮子！
