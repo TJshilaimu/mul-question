@@ -216,3 +216,34 @@
         })
 ```
 > 原本想在vue中写这个插件的，结果一时想不开就写了原生的。就写了个基本框架，目前搜索没做以及省略功能辣眼睛，就练练手也不想搞太多，就先这样吧，不能重复造轮子！
+
+## 2020-8-19
+- easy:
+```javascript
+    // 下面代码输出什么
+        var arr =[1,2,3,4];
+        var str='123asd'
+        arr.length=1;
+        str.length=1;
+        console.log(arr,str)
+```
+> 答案是 [1] '123asd'。length会对arr起作用，但不会对原始值起作用，原始值没有属性与方法，但我们能调用他们是因为包装类，例如 var str='asd',str.length=1;
+这会在内部执行 new String(asd).length = 1,然后删除，最后得到的str依旧是'asd'没有改变。
+
+- normal:
+setTimeout与requestAnimationFrame的区别？
+> 1，由于Js的事件执行机制的问题，利用setTimeout可能会造成刷新时间不一致的情况，而requestAnimationFrame则会根据显示屏的频率让页面重绘的频率与
+这个刷新频率保持同步；2，setTimeout属于JS引擎，requestAnimationFrame属于GUI引擎；3性能层面：当页面被隐藏或最小化时，定时器 setTimeout 仍在后台执行动画任务。而对于requestAnimationFrame来说，当页面处于未激活的状态下，该页面的屏幕刷新任务会被系统暂停，requestAnimationFrame 也会停止；
+
+- 小demo：
+```javascript
+    //今天有点忙，事情还一堆没做完，所以就先投个懒，就写个mysql查询语句。下午因为这条语句有问题，为了解决这个Bug,足足花了四个多小时！！！
+    //mysql模糊查询在node中的书写方式,属于dao层。
+    function querySome(search,success){
+        var selectSql = "select * from blog where title like concat('%',?,'%') or content like concat('%',?,'%');"
+        var params = [search,search];
+        // 下面就是mysql的创建连接，.connect(), .query(), .end();
+    ···
+    }
+
+```
