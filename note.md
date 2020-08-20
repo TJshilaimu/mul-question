@@ -245,5 +245,46 @@ setTimeout与requestAnimationFrame的区别？
         // 下面就是mysql的创建连接，.connect(), .query(), .end();
     ···
     }
+```
 
+## 2020-8-20
+- easy：
+```javascript
+   //下面代码执行的结果是什么
+    function getInfo(per,age){
+        per.name='c1';
+        age=17;
+    
+    }
+    var newPer={name:'c2'};
+    var newAge=18;
+    getInfo(newPer,newAge);
+    console.log(newPer,newAge)
+```
+> 答案是 {name:'c1'} 18。利用原始值与引用值传值的区别，引用值传递的是地址，原始值传递的时候会覆盖形参，但函数里面的age则是函数作用域上的参数，与外面的newAge没关系。
+
+-normal：
+在地址栏中输入一个url按下回车后发生了什么？
+>(先写个简单的，过两天周末时间多再来展开) 简单流程就是 先进行DNS解析->TCP三次握手->http传输->服务器接收数据并返回->四次握手关闭传输->浏览器端解析渲染render树（回流、重构）。
+
+- 小demo：
+```javascript
+    //mock的基本使用（生成随机数，拦截ajax请求）
+    //npm install mockjs
+    var Mock = require('mock')
+    //Mock.mock({id|+1:1}) Mock.random.date()
+   Mock.mock('./data.json'，{
+        "status"："success"，
+        "msg":"ok",
+        "data|10":[{
+            "id|+1":1,
+            "name":"@cname",
+            "sex|1":"['男','女']"，
+            "birth":"@date",
+            "sNo|+1":11000，
+            "phone":"@natural(13000000000,19900000000)",
+            "address":"@country(true)",
+            "ctime":"@date(T)"
+        }]
+    })
 ```
