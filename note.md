@@ -288,3 +288,57 @@ setTimeout与requestAnimationFrame的区别？
         }]
     })
 ```
+
+## 2020-8-21
+-easy:
+```javascript
+    // 下面代码的执行结果是什么？
+    var list =[1+2,1*2,1/2]
+    console.log(list)
+```
+> 答案是[3,2,0.5]
+
+- normal:
+axios如何实现并发？（笔试竟然在这栽了，气晕，记下来）
+```javascript
+    axios.all([axios.get('url1'),axios.get('url2')])
+          .then(axios.spread((resp1,resp2) => {
+              console.log(resp1,resp2)
+          }))
+```
+
+- 小demo：
+```javascript
+   // 性能优化之防抖？
+    // 防抖就是为了防止在一段时间内重复一段代码（函数），目的是控制次数。思路：给函数设一个时间，让它在n秒后再执行，在这n秒内再次被触发则会重置时间。
+    /*
+    *   fn 为执行的函数,delay为延时，flag为状态标志，用作标记是否第一次要立即执行
+    */
+    function debounce(fn,delay,flag){
+        let timer;
+        return function(...args){
+            timer && clearTimeout(timer);
+            let that = this;
+            if(flag){
+                flag = false;
+                fn.apply(that,args)  //这里可以直接调用fn(args)，这里这么写是为了提示下面的fn使用如果没用箭头函数则要绑定this。
+            }
+            timer = setTimeout(()=>{
+                fn(args)
+            },delay)
+        }
+    }
+    var inp = document.getElementById('inp');
+      
+    var handler=debounce(show,500,true);
+
+    inp.addEventListener('input',function(){
+        let val = this.value;
+        // console.log('ok')
+       handler(val)
+    })
+    function show(val){
+        console.log('a')
+    }
+
+```
