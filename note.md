@@ -343,3 +343,106 @@ axios如何实现并发？（笔试竟然在这栽了，气晕，记下来）
     }
 
 ```
+
+## 2020-8-22
+- easy:
+```javascript
+  // 下面代码的执行结果是什么？
+        var one = (false || {} || null); 
+        var two = (null || false || ""); 
+        var three = ([] || 0 || true); 
+        console.log(one,two,three)
+```
+> 答案是 {}，"",[]。逻辑运算符中，false、null、undefined、""、0、NaN这六种boolean判断为false，其他全为true。而对于（表达式1 || 表达式2）这种来说，若符号为&&，若表达式1为假，则返回表达式1的结果，且不执行表达式2，反之，返回表达式2的结果。若符号为||，若表达式1为真，则返回表达式1的结果，不执行表达式2，反之返回表达式2的结果
+
+- normal:
+什么是reflow回流？什么是repaint重绘？
+> 回流指的是根据 render tree 布局，元素的尺寸、位置、内容、结构发生了变化，需要重新计算样式属性及渲染树。 重绘指的是元素的改变只影响了节点的一点样式（背景色、边框色、字体颜色），只需要应用新样式绘制这个元素就可以了。
+引起回流的操作： 1. 页面第一次渲染。2.DOM树变化，如增删节点。3.Render树改变，如padding改变。4.浏览器窗口resize。5.获取元素的某些属性，如 offsetWidth,scrollTop、调用getComputed()、或者IE的currentStyle等。
+引起重绘的操作：1.回流必定引起重绘。2.背景色、颜色，字体改变（大小改变时会发生回流）。
+优化回流、重绘次数：1.避免逐个修改样式，最好一次性修改。2.可以将需要多次修改的DOM元素设置为display:none，操作完再显示（因为隐藏元素不在render树内）。3.避免多次读取某些属性
+延伸：经常说操作DOM很耗资源，其实操作DOM的具体成本，说到底是造成浏览器回流以及重绘，从而消耗GPU资源。
+
+- 小demo：
+```javascript
+  // 性能优化之节流？（这里纠结了三四个小时，因为查阅资料得知有不同的写法，总想需求一个完美的解决函数，
+  //但最后才发现并没有完美函数，只能挑选更适合的函数去使用。算是给自己提个醒吧，想得出完美的办法再去实施是不可行的！！！！）
+        function throttle(fn, delay, immediate) {
+            if (immediate) { //是否第一次时立即执行一次
+                let t; //t为上一次执行的时间
+                return function () {
+                    if (!t || Date.now() - t > delay) {
+                        fn();
+                        t = Date.now()
+                    }
+                }
+            } else {
+                let timer;
+                return function () {
+                    if (timer) {
+                        return
+                    }
+                    timer = setTimeout(() => {
+                        fn()
+                        timer = null; //计时器到时见执行后得把timer值修改，否则会一直进入if判断里
+                    }, delay)
+                }
+            }
+
+        }
+        function show() {
+            console.log('a')
+        }
+        var handle = throttle(show, 1000,false)
+        window.onresize = function () {
+            handle()
+        }
+
+        //下面为另一种方法，对于input来说会显示最后一次输入的值，即便没达到间隔时间。但由于有clearTimeout操作，所以若是在结束时还没达到delay，则第一次的显示时间会变长。
+        
+
+        <input type = "text"id = "input" / >
+            let ipt = document.getElementById('input');
+
+        let handler = throttle(handleSendPhone, 1000);
+
+        ipt.addEventListener('input', function () {
+            let val = this.value;
+            handler(val);
+        });
+
+        // 调用的函数
+        function handleSendPhone(val) {
+            console.log(val)
+        }
+
+        /**
+         * @fn : 要执行的函数
+         * @delay : 每次执行函数的时间间隔
+         */
+        function throttle(fn, delay) {
+            let timer;
+            let prevTime; // 记录上一次执行的时间
+            return function (...args) {
+                let currTime = Date.now(); // 获取当前时间时间戳
+                let context = this;
+                if (!prevTime) prevTime = currTime; // 第一次执行时prevTime赋值为当前时间
+
+                clearTimeout(timer); // 每次都清除定时器，保证定时器只是在最后一次执行
+
+                if (currTime - prevTime > delay) { // 如果为true ，则表示两次执行函数的时间间隔为delay.
+                    prevTime = currTime;
+                    fn.apply(context, args);
+                    clearTimeout(timer); // 清除定时器。用来处理假如函数停止调用时刚好函数也停止执行，不需要获取后续的值。 详见下面定时器的介绍。
+                    return;
+                }
+                // 当上面执行currTime - prevTime > delay 为false时，执行定时器。
+                // 用来处理：假如下次函数执行时间未到，函数不继续调用了，会造成最后一次函数执行 到 最后一次函数调用之间的值获取不到。
+                timer = setTimeout(function () {
+                    prevTime = Date.now();
+                    timer = null;
+                    fn.apply(context, args);
+                }, delay);
+            }
+        }
+```
