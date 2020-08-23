@@ -401,7 +401,7 @@ axios如何实现并发？（笔试竟然在这栽了，气晕，记下来）
         //下面为另一种方法，对于input来说会显示最后一次输入的值，即便没达到间隔时间。但由于有clearTimeout操作，所以若是在结束时还没达到delay，则第一次的显示时间会变长。
         
 
-        <input type = "text"id = "input" / >
+        <input type = "text"id = "input" />
             let ipt = document.getElementById('input');
 
         let handler = throttle(handleSendPhone, 1000);
@@ -445,4 +445,44 @@ axios如何实现并发？（笔试竟然在这栽了，气晕，记下来）
                 }, delay);
             }
         }
+```
+
+## 2020-8-23
+- easy:
+通过类名获取元素的api？
+> document.getElementByClassName('xx')、document.querySelect('.xx')。
+
+- normal:
+浏览器的渲染过程?
+> 1.解析HTML，构建DOM树（此时遇见外链，会发起请求）。2.解析CSS，生成CSS规则树。3.合并CSS树与HTML树，生成Render树。4.布局render树（layout、reflow）。5.绘制render树(paint)。6.浏览器会将各层的信息发送给GPU，GPU将各层合成，显示在屏幕上。
+
+- 小demo:
+```javascript
+//导出一个深克隆函数
+export default function clone(obj){
+    if(obj instanceof Array){
+        return arrayClone(obj)
+    }
+    else if(obj instanceof Object){
+        return objClone(obj)
+    }else{
+        return obj
+    }
+}
+
+function arrayClone(obj){
+    var arr = [];
+    for(var i=0;i< obj.length;i++){
+        arr[i] = clone(obj[i])
+    }
+    return arr;
+}
+
+function objClone(obj){
+    var newObj={};
+    for(var prop in obj){
+        newObj[prop] = clone(obj[prop])
+    }
+    return newObj;
+}
 ```
