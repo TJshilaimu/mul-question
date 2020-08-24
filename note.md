@@ -486,3 +486,70 @@ function objClone(obj){
     return newObj;
 }
 ```
+## 2020-8-24
+- easy:
+```javascript
+    //下面代码输出的结果是什么?
+    console.log(123..toString())
+```
+> 答案是 '123'，字符串类型的。这里面有两个点不常见，由于浏览器的机制，这种直接数字调用不清楚第一个点是小数点还是对象属性调用这种，所以需要两个点，它会把123..toString()当做123.0.toString(),也就是说前面的是数字123.0。
+
+- normal:
+什么是继承？
+> 继承就是copy和复用，让一个对象拥有另一个对象的属性和方法即可。   实现：1.for·in循环对象，依次赋值。2.利用prototype属性，构建原型链。3.Object.assign()方法。
+
+- 小demo:
+```javascript
+    //聊天框分别位居左右两边布局,这里记一笔主要是因为这个布局启动浮动后会产生左右隔行布局，除了给上一级清浮动外，给上上级flex-column也可以
+       /* <div class="container">
+            <div class="wrap" v-for="(item,index) in list" :key="index">
+                <div class="right box" v-if="index % 2 ==0">
+                    {{item}}
+                </div>
+                <div class="left box "v-else>
+                    {{item}}
+                </div>
+            </div>
+        </div>
+
+         list: ['话1', '话2', '话3', '话4', '话5', '话6', '话7']
+            .container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    .box {
+        max-width: 80%;
+        height: 30px;
+        line-height: 30px;
+        text-align: left
+    }
+    .right {
+        float: right;
+        background-color: aqua
+    }
+  .left {
+        float: left;
+        background-color: aquamarine
+    }
+    */
+   //或者不用flex布局，用clear
+        <div class="containerBox">
+            <!-- 显示聊天内容 -->
+            // vue
+            <div v-for="(item,index) in allContentList" :key="index" class="clear">
+                <div v-if="index % 2 == 1" class="textBox fl">{{item.value}}</div>
+                <div v-else class="textBox fr">{{item.value}}</div>
+            </div>
+            // 浮动clear
+            <div class='clear'>
+                <div class="textBox fl">1</div>
+            </div>
+            <div class='clear'>
+                <div class="textBox fr">567</div>
+            </div>
+        </div>
+```
+
+
+记一笔，聊天框左右布局，用clear或者flex-column，div>div.left、div>div.right这种结构（flex则多加一层div），保证对left上一层的div进行操作
