@@ -550,6 +550,41 @@ function objClone(obj){
             </div>
         </div>
 ```
+## 2020-8-25
+- easy:
+```javascript
+    //下面代码输出的结果是什么？
+    var num =3;
+    console.log(num.toString(2))
+    console.log(num.toFixed(2))
+```
+> 答案是 11,3.00。原始值进行属性操作时会有包装类操作，这里没多大影响，主要是toString()方法没传数字时，会将其装换成字符串，传了数字后会对其进行n进制转换，所以这里是二进制的11；toFixed()是保留几位小数。
 
+- normal:
+对CSS盒模型了解多少？
+> 盒模型分为标准盒模型及怪异盒模型，代码为box-sizing:content-box|border-box，标准盒模型的元素宽度=padding*2+border*2+width,但我们设置的width只是他的内容区content的宽度，所以与实际情况不太匹配。怪异盒模型的width=padding*2+border*2+content，符合我们实际用途，现在绝大多数都用这个。然后谈谈margin塌陷和合并，margin塌陷的解决方法就是出发bfc，具体方式为在父元素上设置：1. position:absolute|fixed、2.float:left|right，3.overflow:hidden，4.display:inline-block.
+margin合并我们通常不触发bfc，只设置上面元素的margin-bottom就行。
 
-记一笔，聊天框左右布局，用clear或者flex-column，div>div.left、div>div.right这种结构（flex则多加一层div），保证对left上一层的div进行操作
+- 小demo:
+```javascript
+// 科里化函数:一个函数中部分参数固定，只需要传入一部分剩下的参数即可。
+    function cur(func,...args){
+        return function(...subs){
+            let total = [...args,...subs]
+            if(total.length >= func.length ){
+            return func(...total)
+            }else{
+                return cur(func,...total)
+            }
+        }
+    }
+
+    function add(a,s,d,f,g){
+        return a+s+d+f+g
+    }
+
+    var f1 = cur(add,2,3)
+    var sum = f1(11)
+    var sum1=sum(10,2,3)
+    console.log(sum1)
+```
