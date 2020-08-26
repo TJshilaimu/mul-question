@@ -588,3 +588,74 @@ margin合并我们通常不触发bfc，只设置上面元素的margin-bottom就�
     var sum1=sum(10,2,3)
     console.log(sum1)
 ```
+
+## 2020-8-26
+- easy:
+```javascript
+//下面的代码会输出什么结果？
+    class Person{
+        constructor(name){
+            this.name=name;
+            //this.sayHello1=()=>{...}
+        }
+        sayHello1 =()=>{
+            console.log(this.name)
+        };
+        sayHello2(){
+            console.log(this.name)
+        }
+    }
+
+    const p = new Person('cl');
+    p.sayHello1();  //cl
+    Person.prototype.sayHello1(); //报错
+    Person.prototype.sayHello1.call(p); //报错
+    p.sayHello2(); //cl
+    Person.prototype.sayHello2(); //undefined
+    Person.prototype.sayHello2.call(p); //cl
+```
+> 答案是注释中写的那些。考虑到类的书写，hello1的写法就相当于this.hello1，即写在注释那位置。hello2即写在原型上，但原型上的this没有name，综合这些即可得出答案。
+
+- normal:
+常用的CSS选择器？
+> 除了常用的元素选择器（通配符（少用，耗资源）、标签、class、id、伪类、属性），主要讲一下其中的伪类选择器:first-child及:first-of-type，前面一种少用，相比之下用后面一种比较好，更符合现实语境。有这些:first-of-type, :last-of-type, :only-of-type, :nth-of-type(), :nth-last-of-type()。权重为！important>行间样式>id>class>标签>*；
+
+- 小demo:
+```javascript
+    // 调用云数据库
+    // app.vue的created函数中初始化
+    wx.cloud.init({
+        traceUser:true,
+        env:'test-41qbp'
+    })
+    // 各vue中调用
+    const db = wx.cloud.database({
+        env:'test-41qbp'
+    })
+    db.collection('数据库名').get().then().catch()
+
+    //调用云函数
+    // project.config.json中配置
+    // "cloudfunctionRoot":"static/functions"，同时也在wx/dist目录下创建相同文件名。内容仅为这个。static下创建文件夹
+    // app.vue的created函数中初始化,
+    wx.cloud.init({
+        traceUser:true,
+        env:'test-41qbp'
+    })
+    // 修改，在云函数的index.js下添加修改为
+    const cloud = require('wx-server-sdk')
+    cloud.init()
+    const db = cloud.database()
+    exports.main = async (event, context) => {
+    
+        return await db.collection("shujuku3").update({
+        data:{
+            nameData: event.nameData
+        }
+        }).then(res=>{
+        console.log(res)
+        }).catch(console.error)
+    }
+    // 调用
+    wx.cloud.callFunction({name:'xxx',data:{nameData:'xx'}}).then().catch()
+```
