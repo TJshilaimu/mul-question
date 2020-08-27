@@ -685,4 +685,49 @@ v-for为什么不推荐用Index作key值?
 > 因为v-for循环的时候，如果这时候再对循环列表进行增删操作，会导致元素根据key值进行渲染，如果用Index作key值，会产生多个渲染，这与虚拟dom的缓存及数据响应不相符。例如[1,2,3,4,5],如果要插入一个值变为[1,2,8,3,4,5],若是用Index当中key值，会导致8及以后的选项都重新渲染，若单独给他们一个id，则只会渲染加载8.
 
 - 小demo:
+```javascript
+    // Typescript初体验
+    //创建一副牌并打印出来（无大小王）
+    type Color="♥"|"♠"|"♦"|"♣"
+    type Mark = number
+
+    interface Cards {
+        color: Color
+        mark: Mark
+    }
+    function card(): Cards[] {
+        let result: Cards[] = [];
+        for (let i = 1; i <= 13; i++) {
+            result.push({
+                color:"♥",
+                mark:i
+            })
+            result.push({
+                color:"♠",
+                mark:i
+            })
+            result.push({
+                color:"♣",
+                mark:i
+            })
+            result.push({
+                color:"♦",
+                mark:i
+            })
+        }
+        return result
+    }
+    function print(arr:Cards[]){
+        let str:string='';
+        arr.forEach((item,i) =>{
+            if(i%6 ===0){
+                str +='\n';
+            }
+            str += item.color + item.mark + '\t';
+        })
+        console.log(str)
+    }
+    let data = card();
+    print(data)
+```
 
