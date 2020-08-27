@@ -659,3 +659,30 @@ margin合并我们通常不触发bfc，只设置上面元素的margin-bottom就�
     // 调用
     wx.cloud.callFunction({name:'xxx',data:{nameData:'xx'}}).then().catch()
 ```
+
+## 2020-8-27
+- easy:
+```javascript
+    // 下面的代码运行后，变量set中保存了什么
+    var set = new Set();
+    var a= [];
+    set.add(a);
+    a.push(1);
+    set.add(a);
+    a=[1];
+    set.add(a);
+    a.pop();
+    set.add(a);
+    set.add([]);
+    set.add([1])
+
+    console.log(set)
+```
+> 答案是{[ 1 ], [], [], [ 1 ]}。new Set()得到的值为不重复的集合，但得注意数组存的是地址，所以a=1上面的语句只会得到{[1]},后面的安装规律就行。
+
+- normal:
+v-for为什么不推荐用Index作key值?
+> 因为v-for循环的时候，如果这时候再对循环列表进行增删操作，会导致元素根据key值进行渲染，如果用Index作key值，会产生多个渲染，这与虚拟dom的缓存及数据响应不相符。例如[1,2,3,4,5],如果要插入一个值变为[1,2,8,3,4,5],若是用Index当中key值，会导致8及以后的选项都重新渲染，若单独给他们一个id，则只会渲染加载8.
+
+- 小demo:
+
