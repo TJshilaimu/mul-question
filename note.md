@@ -731,3 +731,20 @@ v-for为什么不推荐用Index作key值?
     print(data)
 ```
 
+## 2020-8-28
+- easy:
+```javascript
+    // 声明一个变量a的值为1，变量b的值为2。如果不借助其他变量，完成a与b的交换
+    var a = 1;
+    var b=2;
+    //some code
+
+    console.log(a,b) //2,1
+```
+> [a,b] = [b,a]。我这里用的是es6里的解构。
+
+- normal:
+聊聊箭头函数？
+> 箭头函数的写法简便，绑定了this，this指向箭头函数所处的环境。所以需要得到动态的this时，或者构造函数这种this有其指向对象实例是最好不用它，同事它也没有arguments、call、apply、bind这些。除此之外，大多都可以尽情使用箭头函数。
+
+- 小demo:
