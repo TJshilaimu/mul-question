@@ -717,7 +717,7 @@ v-for为什么不推荐用Index作key值?
         }
         return result
     }
-    function print(arr:Cards[]){
+    function Print(arr:Cards[]){
         let str:string='';
         arr.forEach((item,i) =>{
             if(i%6 ===0){
@@ -728,7 +728,7 @@ v-for为什么不推荐用Index作key值?
         console.log(str)
     }
     let data = card();
-    print(data)
+    Print(data)
 ```
 
 ## 2020-8-28
@@ -748,3 +748,4 @@ v-for为什么不推荐用Index作key值?
 > 箭头函数的写法简便，绑定了this，this指向箭头函数所处的环境。所以需要得到动态的this时，或者构造函数这种this有其指向对象实例是最好不用它，同事它也没有arguments、call、apply、bind这些。除此之外，大多都可以尽情使用箭头函数。
 
 - 小demo:
+> 今天就记一下，把上面的扑克牌函数优化了一下，用了ts的模块化导入导出，但由于在配置的时候```module:commonjs```这里配置成了es2016所以一直报错，记一笔，因为是运行在Node环境中，所以用commonjs，还有就是print函数名的问题，发现会有冲突，不知道昨天运行时为什么没报错，今天要把print名修改下。
