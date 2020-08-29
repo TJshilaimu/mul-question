@@ -749,3 +749,107 @@ v-for为什么不推荐用Index作key值?
 
 - 小demo:
 > 今天就记一下，把上面的扑克牌函数优化了一下，用了ts的模块化导入导出，但由于在配置的时候```module:commonjs```这里配置成了es2016所以一直报错，记一笔，因为是运行在Node环境中，所以用commonjs，还有就是print函数名的问题，发现会有冲突，不知道昨天运行时为什么没报错，今天要把print名修改下。
+
+## 2020-8-29
+
+- easy:
+```javascript 
+//下面的代码会输出什么结果？
+    function Print(x,y){
+        this.x=x;
+        this.y=y;
+        this.moveTo=function(x,y){
+            this.x=x;
+            this.y=y;
+            console.log(this.x +','+this.y);
+        }
+    }
+    var p1=new Print(0,0);
+    var p2 = {x:0,y:0};
+    p1.moveTo(1,1);
+    p1.moveTo.apply(p2,[10,10])
+```
+> 答案是 1,1 10,10。this.moveTo函数中的this指向moveTo这个函数。apply把this指向了p2.
+
+- normal:
+set与map?
+> 这两个都是es6新加的集合，目的是因为原有存数据的数组及对象不能够满足要求，所以新出了两个存储数据的集合类型。set是去重。使用方式为：```var s= new Set([1,3,5,4,5])```会得到{1,3,5,4},再对其进行数组展开就达到数据去重的目的了。遍历可以用for...of，其身上也还有add()|clear()|has()|value()|keys()等方法。  map方法则是存储一个键值对，使用方式为：```var map = new Map();map.set('name','value');map.get('name')```，主要是set、get方法，然后其自身也有add|has|value等方法，循环的话也用for...of循环。
+
+- 小demo:
+```javascript
+    // 图片瀑布流插件
+function waterfall(options) {
+    // 默认配置
+    let defaultOption = {
+        minGap: 10, //间隔
+        imgWidth: 220,  // 图片宽度
+        container: document.body, //父级
+        imgList:[] // 图片地址
+        number: 5
+    }
+    options = {
+        ...defaultOption,
+        ...options
+    }
+    let imgs = []; //存储所有的img元素
+    conPosition()
+    createImg();
+    window.onresize = function () {
+        setPosition()
+    }
+
+    //创建img元素
+    function createImg() {
+        options.imgList.forEach((t, i) => {
+            var img = document.createElement('img');
+            img.style.width = options.imgWidth + 'px';
+            img.style.position = 'absolute';
+            img.style.transition = ".5s"
+
+            img.src = t;
+            imgs.push(img)
+            options.container.appendChild(img);
+            img.onload = function () {
+                setPosition()
+            };
+        })
+    }
+
+    // 获取图片水平方向上的信息：容器宽度、图片数量、间隔
+    function getHorizontal() {
+        var obj = {};
+        obj.clientWidth = options.container.clientWidth;
+        // 获取每行列数
+        obj.number = Math.floor((obj.clientWidth + options.minGap) / (options.imgWidth + options.minGap));
+        // 动态计算出每列间隔
+        obj.gap = (obj.clientWidth - obj.number * options.imgWidth) / (obj.number - 1)
+        return obj;
+    }
+    // 设置每一张图片的位置
+    function setPosition() {
+        let info = getHorizontal();
+        let arr = new Array(info.number);
+        arr.fill(0);
+        imgs.forEach((item, index) => {
+            let min = Math.min.apply(null, arr)
+            let i = arr.indexOf(min);
+            arr[i] = min + item.clientHeight + info.gap;
+            item.style.top = min + 'px';
+            item.style.left = i * (info.gap + options.imgWidth) + 'px';
+          
+        })
+        // 高度自适应
+        let max = Math.max.apply(null,arr);
+        options.container.style.height = max + 'px'
+    }
+    // 判断父元素是否有定位
+    function conPosition() {
+        let attr = window.getComputedStyle(options.container);
+        if (attr.position === 'static') {
+            options.container.style.position = 'relative'
+        }
+    }
+
+}
+
+```
