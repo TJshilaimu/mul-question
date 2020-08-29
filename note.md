@@ -787,6 +787,7 @@ function waterfall(options) {
         imgList:[] // 图片地址
         number: 5
     }
+    // 混合配置
     options = {
         ...defaultOption,
         ...options
@@ -797,7 +798,6 @@ function waterfall(options) {
     window.onresize = function () {
         setPosition()
     }
-
     //创建img元素
     function createImg() {
         options.imgList.forEach((t, i) => {
