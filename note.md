@@ -853,3 +853,55 @@ function waterfall(options) {
 }
 
 ```
+
+## 2020-8-30
+
+- easy:
+```javascript
+    // 下面代码输出什么？
+let globalVar ='xyz';
+(function (outerArg){
+    let outerVal='a';
+    (function(innerAgr){
+        var innerVal = 'b';
+        console.log(
+            `"outerAgr = " + outerArg + ","+
+            "innerAgr = " + innerAgr + ","+
+            "outerVal = " + outerVal + ","+
+            "innerVal = " + innerVal + ","+
+            "globalVar = " + globalVar`
+        )
+    })(456)
+}(123))
+
+```
+> 输出为123,456,a,b,xyz(没写格式)。
+
+- normal:
+谈谈es6中的类？
+> 由于最初js中没有面向对象编程的概念，所以随着应用范围的扩大，对其需求的增加，我们在编程的时候就需要一些面向对象的思想，最初是进行原型上的改造，即创建构造函数，并在其原型上增加方法，令其与面向独享相似，而class类就是构造函数的语法糖。它使得构造函数在形式上变得简便，而且也没有了变量提升。使用方式为：```class animai{constrouctor(){},protoFun(){}}```constructor中是私有属性，会直接进行调用，其他原型上方法则会根据情况进行调用，添加方法既可以在prototype上直接添加，也可以利用Object.assign(per.prototype,obj)进行添加。
+
+- 小demo:
+```javascript
+//对昨天的瀑布流进行优化，增加防抖效果
+    //创建img元素
+    function createImg() {
+        options.imgList.forEach((t, i) => {
+            var img = document.createElement('img');
+            img.style.width = options.imgWidth + 'px';
+            img.style.position = 'absolute';
+            img.style.transition = ".5s"
+            img.src = t;
+            imgs.push(img)
+            options.container.appendChild(img);
+            img.onload =  debounce1
+        })
+    }
+    //注意顺序， debounce1要在createImg前创建。 
+       conPosition()
+    var debounce1 = debounce(setPosition,100,false)
+    createImg();
+    // 改变窗口大小
+    window.onresize = debounce1
+
+```
