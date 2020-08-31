@@ -905,3 +905,82 @@ let globalVar ='xyz';
     window.onresize = debounce1
 
 ```
+## 2020-8-31
+- easy:
+```javascript 
+// 下面代码输出什么？
+console.log(1 + undefined); //NaN
+console.log(1 + null); //1
+console.log(undefined + null); //NaN
+console.log(true + false); //1
+console.log(3 +'6');   // '36'
+console.log(2 + []);    //'2'
+console.log(2+[2,3])  //'22,3'
+console.log(2 +{a:12});    //'2[object,Object]'
+console.log([]+{});  // '[object,Object]'
+console.log({}+[]);   // '[object,Object]'
+console.log(3 + {});   //'3[object,Object]'
+console.log({}+3);   //'[object,Object]3'
+```
+> 答案如上，要注意的是隐式类型转换时，{}、[]这两个的结果。
+
+- normal：
+常见的状态码？
+> 1xx,表示接收到请求并且继续处理。 2xx，表示响应成功，200：请求被成功响应，请求的数据发送回客户端。3xx，表示重定向，301：永久重定向；302：临时重定向；303：临时重定向，只能用get请求；304：上次使用后，请求的网页未修改，使用缓存。4xx:客户端错误，400：请求语法错误，403：禁止访问，服务器收到请求，但拒绝访问。404：请求资源不存在。5xx:服务端错误，500：服务器出错，503：服务器负载过大，暂时没办法处理请求。
+
+- 小demo:
+```javascript
+// 扑克牌优化：采用枚举。
+export enum Color {
+    heart = "♥",
+    spade = "♠",
+    club = "♣",
+    diamond = "♦"
+}
+export enum Mark {
+    A = "A",
+    two = "2",
+    three = "3",
+    four = "4",
+    five = "5",
+    six = "6",
+    seven = "7",
+    eight = "8",
+    nine = "9",
+    ten = "10",
+    eleven = "J",
+    twelve = "Q",
+    king = "K"
+}
+export type Cards = {
+    color: Color
+    mark: Mark
+}
+export type Deck = Cards[];
+
+    export function myPrint(arr:Deck): void {
+    let str: string = '';
+    arr.forEach((item, i) => {
+       str += item.color+item.mark +'\t'
+       if((i+1)%6 ===0){
+           str +='\n'
+       }
+    })
+    console.log(str)
+}
+export function card(): Deck {
+    let result: Deck = [];
+    let mark =Object.values(Mark)
+    let color = Object.values(Color)
+    for (const m of mark) {
+        for (const c of color) {
+            result.push({
+                color:c,
+                mark:m
+            })           
+        }
+    }
+    return result
+}
+
+```
