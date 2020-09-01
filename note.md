@@ -982,5 +982,42 @@ export function card(): Deck {
     }
     return result
 }
+```
 
+## 2020-9-1
+- easy:
+```javascript 
+// 下面代码输出什么？
+var a = 1;
+function fn1(a){
+console.log(a)
+a = 2;
+}
+fn1(); //undefined
+console.log(a); //1
+```
+> 考察的是预编译。
+
+- normal:
+事件委托？
+> 在实际应用中，又是要给每个子元素添加事件会显得很麻烦，所以我们会利用事件委托直接在它们的父节点上触发函数，这得益于浏览器的事件冒泡机制。事件委托用到了js的两个经常被忽略的特性：事件冒泡和目标事件，
+```javascript
+function getEventTarget(e){
+    e = e||window.event;
+    return e.target||e.srcElement
+}
+```
+
+- 小demo:
+```javascript
+// 二叉树的深搜
+function deepSearch(root,target){
+    if(root.value == null){
+        return false;
+    }
+    if(root.value == target) return true;
+    let left = deepSearch(root.left,target);
+    let right = deepSearch(root.right,target);
+    return left || right;
+}
 ```
