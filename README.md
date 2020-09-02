@@ -1021,3 +1021,57 @@ function deepSearch(root,target){
     return left || right;
 }
 ```
+
+## 2020-9-2
+- easy:
+```javascript
+// 下面代码输出什么？
+// 如何改正可以输出0 1 2 3 4？
+for(var i = 0; i<5;i++){
+    setTimeout(function(){
+        console.log(i)
+    },i*1000)
+}
+```
+> 答案是5 5 5 5 5。修改方法是将var改为let，或者将定时器用立即执行函数包裹起来。
+
+- normal:
+```javascript
+    // 记一下今天的面试题
+    var a =function b(){
+        // console.log(a,b) //function b(){} function b(){} 这行自己添加的
+        console.log(a ==b) 
+    }
+    a();// true
+    b(); //报错
+
+    function test(){
+        var num =888;
+        var fun=function(){ console.log(num)}
+        num++;
+        return fun;
+    }
+    var t1 =test();
+    t1() // 889，闭包了
+```
+
+- 小demo:
+```javascript
+    // 二叉树的广搜
+    //结构为 a.left=b;a.right=c; a.value='a'，注意这里传入一个数组
+    function plus(arr,target){
+        let childList=[];
+        for (let i = 0; i < arr.child.length; i++) {
+            const element = array[i];
+            if(element.value == null){
+                return false;
+            }
+            if (element.value !=null && element.value ==target) {
+                return true;
+            }
+            childList.push(element.left);
+            childList.push(element.right)；
+        }
+        return plus(childList,target)
+    }
+```
