@@ -1060,17 +1060,16 @@ for(var i = 0; i<5;i++){
     // 二叉树的广搜
     //结构为 a.left=b;a.right=c; a.value='a'，注意这里传入一个数组
     function plus(arr,target){
+        if(arr == null || arr.length == 0) return false;
         let childList=[];
         for (let i = 0; i < arr.child.length; i++) {
             const element = array[i];
-            if(element.value == null){
-                return false;
-            }
-            if (element.value !=null && element.value ==target) {
+            if (element !=null && element.value ==target) {
                 return true;
-            }
+            }else{
             childList.push(element.left);
-            childList.push(element.right)；
+            childList.push(element.right);
+            }
         }
         return plus(childList,target)
     }
