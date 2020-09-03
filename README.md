@@ -1075,3 +1075,53 @@ for(var i = 0; i<5;i++){
         return plus(childList,target)
     }
 ```
+
+## 2020-9-3
+- easy:
+```javascript
+    // 下面代码输出什么
+    var a = {},
+    b={key:'b'},
+    c={key:'c'}
+    a[b] =123;
+    a[c]=456;
+    console.log(a[b])
+```
+> 答案是 456。 因为a[b]这种写法里面的b是变量，但b又是一个对象，根据我们平时的对象写法，对象的属性是一个字符串，所以这里会调用toString()方法，则对象会变成'[object,Object]'，所以这里相当于两次给a['[object,Object]']赋值，结果为456.
+
+- normal:
+解决跨域问题？
+> 跨域存在于浏览器端，处于浏览器把数据接收到后发现有跨域情况才会报错，协议、域名、端口号只要有一样不同就会引起跨域。解决跨域的方法有，1.使用JSONP请求，2.使用iframe标签。3.后端响应头设置CORS，即'access-control-allow-origin:*'。4.后端进行代理，例如用node穿件一个接口，这个接口利用axios请求跨域的url数据，前端则axios请求node的这个接口。
+
+- 小demo:
+```javascript
+// 二叉树部分算法  a={value:'a',right:b,left:c} 
+/***
+ *      A
+ *    C   B
+ *  F  G D  E
+ * 
+ */
+
+// 前序遍历 ACFGBDE
+function front(root){
+    if(root == null) return;
+    console.log(root.value);
+    front(root.left);
+    front(root.right);
+}
+// 中序遍历 FCGADBE
+function f1(root){
+    if(root == null) return ;
+    f1(root.left);
+    console.log(root.value);
+    f1(root.right);
+}
+// 后序遍历 FGCDEBA
+function last(root){
+    if(root == null) return;
+    last(root.left);
+    last(root.right);
+    console.log(root.value);
+}
+```
