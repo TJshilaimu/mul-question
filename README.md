@@ -1124,3 +1124,40 @@ function last(root){
     console.log(root.value);
 }
 ```
+
+## 2020-9-4
+- easy:
+```javascript
+    // 下面代码输出什么？
+    console.log(false == '0');
+    console.log(false === '0');
+```
+> 答案是 true，false。考察比较运算符，相对等于和绝对等于
+
+- normal:
+预编译口号及四部曲？
+> 口号：1.函数声明整体提升，变量声明提升。2.四部曲（AO）：a.创建AO对象。 b.找形参与变量声明，值为undefined。 c.形参、实参相统一。 d.在函数体内找到函数声明，值赋予函数体。
+
+- 小demo:
+```javascript
+     // 冒泡排序  排序的本质就是比较和交换
+    function sort(arr){
+        for(var i = 0;i<arr.length;i++){
+            for (var j = 0; j < arr.length-i-1; j++) {
+                if(isBig(arr[j],arr[j+1])){
+                    exchange(j,j+1,arr)
+                }
+            }
+        }
+    }
+    // 交换
+    function exchange(a,b,arr){
+        var temp=arr[a];
+        arr[a]=arr[b];
+        arr[b] = temp;
+    }
+    // 比较
+    function isBig(a,b){
+        return a-b> 0? 1:0
+    }
+```
