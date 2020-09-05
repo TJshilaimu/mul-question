@@ -1161,3 +1161,40 @@ function last(root){
         return a-b> 0? 1:0
     }
 ```
+
+## 2020-8-5
+- easy:
+```javascript
+    // 下面代码输出什么？
+    console.log("0||1=" + (0||1)); //1
+    console.log("1||2=" + (1||2)); //1
+    console.log("0&&1=" + (0&&1)); //0
+    console.log("1&&2=" + (1&&2)); //2
+```
+> 答案将注释部分拼接就行，考察逻辑运算符。
+
+- normal:
+谈谈less?
+> less是一种css预编译器，安装过后自带一个lessc工具，可以单独编译less文件。常见作用除了嵌套，还有变量@red:#f40，将.classname(){color:#222}当做一个代码段混入，函数调用，@import('xxx')导入等操作;
+
+- 小demo:
+```javascript
+    // vue ssr渲染  （极其简陋版）
+    const Express = require('express');
+    const app =new Express();
+    const Vue = require('vue');
+    const serverRender=require('vue-server-renderer');
+    const fs = require('fs')
+    const template = fs.readFileSync('./template.html') //此html中带有 `<!--vue-ssr-outlet-->`
+    const vm = new Vue({
+        template:`<div> hello world </div>`
+    })
+    const render = serverRender.createRenderer({
+        template
+    })
+    app.get('/',(req,res)=>{
+        let value = render.renderToString(vm); //将vue转换成字符串渲染
+        res.end(value)
+    })
+    app.listen(3000,_ =>{ console.log('server is running at 3000')})
+```
