@@ -1198,3 +1198,55 @@ function last(root){
     })
     app.listen(3000,_ =>{ console.log('server is running at 3000')})
 ```
+
+## 2020-9-6
+- easy:
+```javascript
+    // 下面代码的输出结果是什么？
+    var length = 10;
+
+    function fn() {
+        console.log('m',this)
+    }
+    var obj = {
+        length: 5,
+        method: function (fn) {
+            fn();
+            arguments[0]();
+        }
+    };
+    obj.method(fn, 1)
+```
+> 答案是10 2。考察this指向。第一个10很好得出，这里arguments[0]()相当于```arguments.0()```，0就是fn，this指向arguments,参考arguments['fn'] == arguments.fn()。注意arguments是一个对象非数组，这样一想容易理解了。
+
+- normal:
+绑定事件的方式？
+```javascript
+    // 时间类型可选，这里案例用click
+    // 1.句柄方式 只能绑定一个
+    dom.onclick=function(){}
+    dom.onclick = null
+
+    // w3c 可绑定多个
+    dom.addEventListener('click',fn,false) //第三个参数为是否捕获
+    dom.removeEventLister('click',fn,false) //要注意，只有命名函数才可以取消
+
+    // ie  这个方法是IE独有的方法，一个事件同样可以绑定多个处理函数。
+    // 当同一个函数绑定多次的时候，addEventListener是只执行一次，但是attachEvent会绑定几次执行几次。
+    dom.attachEvent('onclick',fn);
+    dom.detachEvent('onclick',fn) //也是同一个函数才可以解除绑定，匿名函数无法解除绑定
+```
+
+- 小demo:
+```javascript
+    // 原型链圣杯模式
+    let inherit = (function(){
+        let F = function(){};
+        return function(target,origin){
+            F.prototype = origin.prototype;
+            target.prototype = new F();
+			target.prototype.constructor = target;
+			target.prototype.uber = origin.prototype; //补充说明我是由谁来的，即origin.prototype
+        }
+    })()
+```
