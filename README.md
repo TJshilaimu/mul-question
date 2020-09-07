@@ -1250,3 +1250,44 @@ function last(root){
         }
     })()
 ```
+
+## 2020-9-7
+- easy:
+```javascript
+    // 实现函数内部参数对调
+    function swap(a,b){
+        [a,b] = [b,a]
+    }
+```
+
+- normal:
+精灵图（css sprite）有什么优缺点？
+> 假如要请求十张图片，不用精灵图的话会导致发送十次http请求，很消耗性能。用了精灵图后会值请求一次大大优化了性能，但缺点是不容易定位具体需要的icon，以及要对精灵图增加、删除icon时有些麻烦。
+
+- 小demo:
+```javascript
+// 封装一个兼容性的事件绑定函数
+function handle(ele, type, fn) {
+    if (ele.addEventLister) {
+        ele.addEventLister(type, fn, null)
+    } else if (ele.attachEvent) { //ie上的this指向window
+        ele['temp' + on + type] = fn;
+        ele['on' + type] = function () {
+            ele['temp' + on + type].call(ele)
+        }
+        ele.attachEvent('on' + type, ele['on' + type])
+    } else {
+        ele[('on' + type)] = fn;
+    }
+}
+// 接触绑定事件
+function removeHandle(ele, type, fn) {
+    if (ele.removeEventListener) {
+        ele.removeEventListener(type, fn, false)
+    } else if (ele.detachEvent) {
+        ele.detachEvent('on' + type, fn)
+    } else {
+        ele['on' + type] = null
+    }
+}
+```
