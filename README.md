@@ -1291,3 +1291,43 @@ function removeHandle(ele, type, fn) {
     }
 }
 ```
+## 2020-9-8
+- easy:
+```javascript
+    //  下面代码输出什么？
+    var arr=[];
+    arr[0]='a';
+    arr[1]='b';
+    arr.foo = 'c';
+    console.log(arr.length); //2
+    arr.length += arr.foo.length;
+    console.log(arr.length)  //3
+```
+> 答案是2 3.arr.foo这个属性不算length里，下一行代码2+1 =3；
+
+- normal:
+(坐在电脑前不知道应该写什么，最近好烦啊)
+三栏布局集中实现方式？
+> 方法1：flex布局，方法2：利用absolute和中间元素的margin-left\margin-right实现。方法3：浮动实现。
+
+- 小demo:
+```javascript
+    // 简单快速排序
+function sort(arr){
+    if(arr == null || arr.length == 0) return [];
+    var left=[];
+    var right = [];
+    var num = arr[0];
+    for (let i = 1; i < arr.length; i++) {
+        if(arr[i]> num){
+            right.push(arr[i])
+        }else{
+            left.push(arr[i])
+        }
+    }
+    right = sort(right);
+    left = sort(left);
+    left.push(num);
+    return left.concat(right);
+}
+```
