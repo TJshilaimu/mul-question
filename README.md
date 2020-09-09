@@ -1331,3 +1331,76 @@ function sort(arr){
     return left.concat(right);
 }
 ```
+
+## 2020-9-9
+- easy:
+```javascript
+//  0的除法运算
+var num = false;
+var result = num / 0 ;
+if(result){
+    console.log(result * 2 + '2' + 4)
+}else{
+    console.log(!result * 2 + '2' + 4)
+}
+```
+> 答案是'224'。 0/0=>NaN, ！NaN => true。
+
+- normal:
+```javascript
+    //数据类型转换之Number
+    console.log(Number('2')) //2
+    console.log(Number('2b')) //NaN
+    console.log(Number('')) //0
+    console.log(Number([0])) //0
+    console.log(Number([])) //0
+    console.log(Number([8,8])) //NaN
+    console.log(Number([8,'b'])) //NaN
+    console.log(Number({})) //NaN
+```
+> 	Number()
+    1、undefined	NaN
+    2、null			0
+    3、布尔值		true为1，false为0
+    4、字符串
+        1、空字符串，空格字符串转为0
+        2、非空字符串，并且内容为纯数字（包含进制与科学表示法）转成对应的数字
+        3、其余都是NaN
+    5、数字		原来的数字
+    6、对象
+        1、对象、函数转成NaN
+        2、空数组转为0，数组里只有一个数据并且这个数据能转成数字，则转成对应的数字，其它都转成NaN 
+
+- 小demo:
+```javascript
+// 记录美团项目中axios的二次封装
+    axios.defaults.baseURL = 'http://www.baidu.com';
+    axios.interceptors.request.use(config => {
+        // Do something before request is sent
+        config = {
+            ...config,
+                params:{
+                    appkey:"asdaklsdajsdn123"
+                }
+        }
+        return config;
+    }, error => {
+        // Do something with request error
+        return Promise.reject(error);
+    });
+
+    export var api = {
+        getData(){
+            return axios.get('url')
+        },
+        getInfo(params){
+            return axios.get('url',params)
+        }
+    }
+    // 调用
+    import { api } from 'xx'
+
+    methods:{
+        api.getData().then(res => { console.log(res)})
+    }
+```
