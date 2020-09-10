@@ -1404,3 +1404,67 @@ if(result){
         api.getData().then(res => { console.log(res)})
     }
 ```
+
+## 2020-9-10
+- easy:
+```html
+<!-- 下面代码输出什么 -->
+<div class="content"></div>
+<div class="content"></div>
+<div class="content"></div>
+
+<script>
+    var divs = document.getElementsByClassName('content');
+    divs[1].className='change';
+    console.log(divs.length)
+</script>
+```
+- normal:
+> （记录一下今天面试题）
+> css中@supports是什么意思？ 
+> 它是检查浏览器是否支持某个CSS属性。若支持则使用里面的css代码 ```@supports (display: grid) {div {display: grid;}}``` ,有点类似于media。
+> em、rem、rpx、px各自是什么？
+>em是相对长度单位，它是相对当前对象内的文本字体尺寸的，不进行设置的话，默认1em=16px。rem是css3的一个新属性，是相对根元素字体尺寸的。rpx是微信小程序的屏幕宽度尺寸，规定750rpx即为屏幕总宽。px是像素单位。
+
+- 小demo：
+```javascript
+//  css tree shaking （借鉴了这里https://www.cnblogs.com/geyouneihan/p/9575674.html）
+const PurifyCss = require('purifycss-webpack');
+const glob = require('glob-all');
+
+// 为了方便最后检查打包后的 css 文件，配置中还使用了 extract-text-webpack-plugin 这个插件。
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+
+let purifyCSS = new PurifyCSS({
+    paths: glob.sync([
+      // 要做CSS Tree Shaking的路径文件
+      path.resolve(__dirname, "./*.html"), // 请注意，我们同样需要对 html 文件进行 tree shaking
+      path.resolve(__dirname, "./src/*.js")
+    ])
+  });
+
+module.exports={
+    module:{
+        rules:[
+            {
+                text:/\.css$/,
+                use: ExtractTextPlugin.extract({
+                    fallback: {
+                      loader: "style-loader",
+                      options: {
+                        singleton: true
+                      }
+                    },
+                    use: {
+                      loader: "css-loader",
+                      options: {
+                        minimize: true
+                      }
+                    }
+                  })
+            }
+        ]
+    },
+    plugins:[extractTextPlugin, purifyCSS]
+}
+```
