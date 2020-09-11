@@ -1468,3 +1468,53 @@ module.exports={
     plugins:[extractTextPlugin, purifyCSS]
 }
 ```
+
+## 2020-9-11
+- easy:
+```javascript
+    //下面代码输出什么？
+     var obj={
+   name:'cl',
+   age:18,
+   method(){
+     (function(){
+       console.log(this.name)
+     })()
+   }
+ }
+ obj.method()
+```
+> 答案是 undefined。这道题是昨天的面试题，刚刚突然想起来了，一校验发现昨天还是写错了，这个时候的this指向window我明白，但是window是对象，给要获取对象上不存在的属性时只会返回undefined,而不会报错，记一笔。
+
+- normal:
+typescript的基本约束有哪些？
+> 有number string boolean undefined null object array void never 联合类型 字面量类型 元祖类型 类型别名type 枚举enum 接口interface 类class
+
+- 小demo:
+```javascript
+    //vue-class-component插件的用法
+    import Vue from 'vue'
+    import Component from 'vue-class-component'
+    @Component({
+        components:{
+            'test':test
+        },
+        beforeEnter(){
+            //todo
+        }
+    })
+    export default class MyComponent extends Vue {
+        a = 'z'
+        data(){
+            return {
+                b:'x'
+            }
+        }
+        methodFun1(){
+            //todo
+        }
+        get msg(){
+            return a+3;
+        }
+    }
+```
