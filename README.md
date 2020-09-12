@@ -1,5 +1,6 @@
 # 前言
 此为记录贴，尽量一天一记。
+[top]
 ## 2020-8-16
 - easy:
 ```javascript
@@ -1162,7 +1163,7 @@ function last(root){
     }
 ```
 
-## 2020-8-5
+## 2020-9-5
 - easy:
 ```javascript
     // 下面代码输出什么？
@@ -1517,4 +1518,44 @@ typescript的基本约束有哪些？
             return a+3;
         }
     }
+```
+
+## 2020-9-12
+- easy:
+```javascript
+    //下面代码输出什么？
+ var func = function course(){
+   console.log(typeof course);
+ }
+ func(); 
+ console.log(typeof course)
+```
+> 答案是 function undefined。
+
+- normal:
+typescript的一些词语
+> 类的继承：如果A和B都是类，且可以描述为A是B，则A和B形成继承关系，A是子类，B是父类。若A继承自B，则A中自动拥有B中所有成员。例如玩家坦克是坦克。这里需注意this指向是动态的。继承还有单根性及传递性。
+
+- 小demo:
+```javascript
+    //抽象类语法熟悉
+    abstract class User {
+        static users:User[] = []
+        constructor(public loginName: string, public LoginPwd: string) { 
+            User.users.push(this)
+        }
+        abstract move(x: string): boolean
+    static login(loginName:string,loginPwd:string): void {
+            console.log(loginName, loginPwd)
+        }
+    }
+    class u1 extends User {
+        move(x: string) {
+            console.log(x + 'is ok')
+            return true
+        }
+    }
+    let p = new u1('cl','18')
+    let p2 = new u1('c2','18')
+    console.log(User.users)
 ```
