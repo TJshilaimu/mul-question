@@ -1586,3 +1586,35 @@ type User={
   }
 ```
 
+## 2020-9-14
+- easy:
+```javascript
+    //如何获取形参的个数？
+    function(arg1,arg2){
+        //上面的arg1,arg2
+    }
+```
+> arguments。
+
+- normal:
+> javascript中进行$emit全局注册时，记得在路由destroy时把它取消掉，即$off('xx')，这样是防止其一遍遍调用。
+
+- 小demo:
+```javascript
+    //layui在ts+vue中的使用
+    window["layui"].use('table',function(){
+        const table = window["layui"].table;
+        table.render({
+            elem:"#demo",
+            height:312,
+            page:true,
+            url:'./url',
+            data:[],
+            cols:[{
+                field:"id",title:'ID',width:80,sort:true,fixed:true
+            },{
+                field:"name",title:'name',width:80,sort:true
+            }]
+        });
+    })
+```
