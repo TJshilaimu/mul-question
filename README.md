@@ -1618,3 +1618,31 @@ type User={
         });
     })
 ```
+
+## 2020-9-15
+```javascript
+//下面代码输出什么？
+function fun(n,o){
+    console.log(o);
+    return {
+        fun:function(m){
+            return fun(m,n)
+        }
+    }
+}
+var a= fun(0);
+a.fun(1)
+a.fun(2);
+a.fun(3);
+var b = fun(0).fun(1).fun(2).fun(3);
+var c= fun(0).fun(1);
+c.fun(2);
+c.fun(3)
+```
+> 答案是undefined 0 0 0 undefined 0 1 2 undefined 0 1 1。注意a.fun(1)时，return时fun执行，此时为实参n=0，清楚了这个思路后就可以一次计算。
+
+- normal:
+```javascript
+    //这两天新入职，接触的项目跟自己平时敲得比较起来有点庞大，在恶补相关代码的功能实现，突然有点不想更新太多自己的每日git了
+    //就记几个组件名称吧：表单form、表格table、遮罩层dialog、穿梭框transfer
+```
