@@ -1646,3 +1646,20 @@ c.fun(3)
     //这两天新入职，接触的项目跟自己平时敲得比较起来有点庞大，在恶补相关代码的功能实现，突然有点不想更新太多自己的每日git了
     //就记几个组件名称吧：表单form、表格table、遮罩层dialog、穿梭框transfer
 ```
+
+## 2020-9-16
+- easy:
+```javascript
+    var user="cl";
+    function first(){
+        console.log(user);
+    }
+    function second(){
+        var user = 'cj';
+        first();
+    }
+    second()
+```
+> 答案是 cl。 
+
+> 今天就写个easy部分。
