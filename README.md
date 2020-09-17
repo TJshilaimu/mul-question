@@ -1663,3 +1663,14 @@ c.fun(3)
 > 答案是 cl。 
 
 > 今天就写个easy部分。
+
+## 2020-9-17
+- easy:
+```javascript
+    //如何阻止点击a链接时的跳转
+           a.onclick=function(e){
+           // 方法一： e.preventDefault()
+           //方法二： return false
+       }
+```
+> 方法一具有通用性，方法二为onclick的方法。
