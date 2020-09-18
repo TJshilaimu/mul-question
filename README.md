@@ -1648,6 +1648,35 @@ c.fun(3)
 ```
 
 ## 2020-9-16
+<<<<<<< HEAD
 
 - normal:
 
+=======
+- easy:
+```javascript
+    var user="cl";
+    function first(){
+        console.log(user);
+    }
+    function second(){
+        var user = 'cj';
+        first();
+    }
+    second()
+```
+> 答案是 cl。 
+
+> 今天就写个easy部分。
+
+## 2020-9-17
+- easy:
+```javascript
+    //如何阻止点击a链接时的跳转
+           a.onclick=function(e){
+           // 方法一： e.preventDefault()
+           //方法二： return false
+       }
+```
+> 方法一具有通用性，方法二为onclick的方法。
+>>>>>>> f6badb2a44ce3d2bdaafc17f2005b1890939eba4
