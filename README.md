@@ -1688,3 +1688,10 @@ c.fun(3)
     //如何让一个元素隐藏起来？
 ```
 > 可以设置display:none,或者opacity:0,或者设置定位，将其left或者top值设置很大，vue中也有v-if、v-show指令
+
+## 2020-9-21
+- easy:
+```javascript
+    // eval()的作用及特点
+```
+> eval()就是用来处理字符串的，将字符串按照javascript代码执行。以前前后端未分离时，请求返回的数据中就有js语句，就可以用eval()来执行。
